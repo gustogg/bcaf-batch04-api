@@ -4,6 +4,13 @@ from documents.models import Doc, Picture
 
 
 class DocSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField('meta_user')
+
+    def meta_user(self, instance):
+        return {
+            "username": instance.owner.username,
+            "email": instance.owner.email
+        }
     class Meta:
         model = Doc
         fields = '__all__'
